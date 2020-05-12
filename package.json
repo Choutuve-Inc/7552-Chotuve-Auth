@@ -1,0 +1,25 @@
+{
+  "name": "todolistapi",
+  "version": "1.0.0",
+  "description": "RESTful todoListApi",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "nodemon server.js"
+  },
+  "repository": {},
+  "author": "Tito Lasanta",
+  "license": "ISC",
+  "bugs": {},
+  "devDependencies": {
+    "mocha": "^7.1.2",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.17.1",
+    "firebase": "^7.14.3",
+    "firebase-admin": "^8.12.0",
+    "mongoose": "^5.7.7"
+  }
+}
