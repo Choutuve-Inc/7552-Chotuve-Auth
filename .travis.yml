@@ -5,8 +5,8 @@ env:
   global:
     secure: PLkopXADEKg3lnjI+gRE5BRQflkldV8uskZjokI+pu6S/2s6puVHjHssD4VEZGTcXlYwT/lMTGzyrsYaWjFpN30OhfLQo6kZxv3+ewirPmPTdabMNrbrF+uSKbSJz25ByhumaDVQaU7q8N9sLz667USWt5kACnnEp7F7usscraSSYNTebRpKw1fNuzHlArTiseY2wuAVUwN5huWjUhMsklo5YkncxorPFuUkiA8AHtPXmKOXNPvGJC6O4bimJhqwgZL+pqmWwX+wRqYZANrD/0z0Yo/x0/eDMVOQVsDWVPnpMsJcyW3qAydVey5IpVFIZUy6tCXsbEt3mnKYMTkPbRCmzOGIR5zWHjYtE4Sq5tAZFpZ4O/JJkrWtYgqIQCY5Mu7nf7RL0RDsYWSpxgl5W0h1Pi8pFipepR4XAa7pScJyYEKG3EuHOwQReNFxGus03tuJn5Xl+VBajhKFGpEaVXdxmXj1hHp9jfTWecZo3EEPjeHXm0Ab14giKe+clQmZefBRKEhSS9dpZDa58P71zMu3SBB1mZBK2qnMYnTyO4154K+cK6SM9sWwwd+k2LmdyoUobmAM2VjioDd+PfSLocQ3wQpkTnwruiM+36FtFlULoaY27zOSc3sM+NQh25Ro73YWHBFHY4GtEQE2Ht44hYcF8V+ydPg8AEh3/TyEWnI=
 before_install:
-- openssl aes-256-cbc -K $encrypted_2c8317c5f69c_key -iv $encrypted_2c8317c5f69c_iv
-  -in firebaseLogin.js.enc -out firebaseLogin.js -d
 - openssl aes-256-cbc -K $encrypted_6f8ffff3b30a_key -iv $encrypted_6f8ffff3b30a_iv
   -in melodic-scarab-243900-firebase-adminsdk-c6niu-fa26458a02.json.enc -out melodic-scarab-243900-firebase-adminsdk-c6niu-fa26458a02.json
   -d
+- openssl aes-256-cbc -K $encrypted_2c8317c5f69c_key -iv $encrypted_2c8317c5f69c_iv
+  -in firebaseLogin.js.enc -out firebaseLogin.js -d
