@@ -13,7 +13,7 @@ var provider = dependencias.provider;
 
   var keyJWT = dependencias.keyJWT;
 
-var logAdmin = function(req,res){
+function logAdmin(req,res){
 	if (!req.body.email) return res.status(400).json({error: 'missing email'});
     if (!req.body.password) return res.status(400).json({error: 'missing password'});
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE) // don't persist auth session
@@ -27,7 +27,7 @@ var logAdmin = function(req,res){
           admin.auth().createCustomToken(userRecord.uid)
           .then(function(customToken) {
             firebase.auth().signOut();
-            var new_user = new User({userMail:req.body.email,userToken:customToken,userType:"admin",tokenDate: new Date(),status:"loged",device:"no"});
+            var new_user = new User({userMail:req.body.email.toLowerCase(),userToken:customToken,userType:"admin",tokenDate: new Date(),status:"loged",device:"no"});
             new_user.save(function(err, user) {
               if (err)
                 res.send(err);
@@ -59,7 +59,7 @@ var logAdmin = function(req,res){
 
 }
 
-var logMailPass = function(req,res){
+function logMailPass(req,res){
 	if (!req.body.email) return res.status(400).json({error: 'missing email'});
     if (!req.body.password) return res.status(400).json({error: 'missing password'});
     if (!req.body.device) return res.status(400).json({error: 'missing device'});
@@ -74,7 +74,7 @@ var logMailPass = function(req,res){
           admin.auth().createCustomToken(userRecord.uid)
           .then( function(customToken) {
             firebase.auth().signOut();
-            var new_user = new User({userMail:req.body.email,userToken:customToken,userType:"mailPass",tokenDate: new Date(),status:"loged",device: req.body.device });
+            var new_user = new User({userMail:req.body.email.toLowerCase(),userToken:customToken,userType:"mailPass",tokenDate: new Date(),status:"loged",device: req.body.device });
             new_user.save( function(err, user) {
               if (err)
                 res.status(404).send(err);

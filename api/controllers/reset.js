@@ -36,13 +36,13 @@ exports.update_a_user = function(req, res) {
 		if(req.body.Npassword){
 		  password = req.body.Npassword+req.body.tipo;
 		}else{
-		res.status(404).send("missing New password");
+			res.status(404).send("missing New password");
+			return
 		}
 		var user = await Rec.findOne(filter)
 			if(!user){
 			  console.log("1")
 			  users = await Rec.find({})
-			  console.log(users);
 			  res.status(404).json("No se registro un request para el cambio de contraseña");
 			  return;
 			}
@@ -54,8 +54,6 @@ exports.update_a_user = function(req, res) {
 			}
 			if((req.body.token != user.userToken)) {
 			  console.log("3")
-			  console.log(user.userToken);
-			  console.log(req.body.token);
 			  res.status(404).json("token erroneo");
 			  return;
 			}
@@ -73,7 +71,6 @@ exports.update_a_user = function(req, res) {
 				return;
 	          })     
 	          .catch(function(error) {
-	            console.log(error)
 
 	            return res.status(500).json( error.code );
 	        });
@@ -81,8 +78,7 @@ exports.update_a_user = function(req, res) {
 	           
 	      
       })  
-      .catch(function(error) {
-            console.log(error)              
+      .catch(function(error) {           
             if(error.code =="auth/invalid-email" ){
                 res.status(406).json( error.code );
                 return

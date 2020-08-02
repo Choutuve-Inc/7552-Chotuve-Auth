@@ -15,11 +15,7 @@ var provider = dependencias.provider;
 
 
 
-
-
-
-
-exports.validateToken = function(req, res) {
+exports.validateToken =  function(req, res) {
   if (!req.body.JWT){
     res.status(404).json("bad request");
   }else{

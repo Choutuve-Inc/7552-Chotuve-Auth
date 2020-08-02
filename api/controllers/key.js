@@ -91,7 +91,10 @@ exports.sendKeyLink = function(req, res) {
             res.send("enviado")
           })
           .catch(function(error) {
-            console.log(error)
+            if(error.code =="auth/user-not-found" ){
+              res.status(404).json( error.code );
+              return
+            }
             res.status(400).send("fallo en enviar mail")
             // Some error occurred, you can inspect the code: error.code
           });

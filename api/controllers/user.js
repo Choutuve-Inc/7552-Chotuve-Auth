@@ -42,6 +42,7 @@ function listAllUsers(req,res,nextPageToken) {
   }
 
 
+
 exports.list_all_users = function(req, res) {
 
 // Start listing users from the beginning, 1000 at a time.
@@ -55,59 +56,23 @@ exports.list_all_users = function(req, res) {
 };
 
 
-function listListUsers(req,res,list,nextPageToken) {
 
-  var arrayUsers=[];
-  var i =0;
-  // List batch of users, 1000 at a time.
-  admin.auth().listUsers(1000, nextPageToken)
-    .then(function(listUsersResult) {
-      listUsersResult.users.forEach(function(userRecord) {
-        //console.log(userRecord);
-        //if(userRecord.password.includes ("mailPass"))
-        if(list.includes(userRecord.uid))
-         arrayUsers.push(userRecord);
-      });
-      if (listUsersResult.pageToken) {
-        // List next batch of users.
-        listAllUsers(req,res,list,listUsersResult.pageToken);
-      }else
-        res.status(200).json(arrayUsers);
-    })
-    .catch(function(error) {
-      console.log('Error listing users:', error);
-      res.status(500).send(error);
-    });
-
-}
 
 exports.getUserDB = function(req, res) {
   
   admin.auth().getUser(req.params.id)
         .then(function(userRecord) {
         res.json(userRecord);
+        return
       }).catch(function(error){
-        console.log(error)
         res.status(500)
+        return
       });
   
 };
 
 
  
-var controlarCustomeTokenHeader = function(req,res) {
-    const token = req.headers['access-token']; 
-    if (token) {
-      try {
-            var decoded = jwt.verify(token, keyJWT);
-          } catch(err) {
-              res.send("token invalido")    
-          }
-    } else {
-        res.send("falta token");
-    }
-}
-
 
 
 
@@ -128,7 +93,7 @@ exports.update_a_user = function(req, res) {
         email = userRecord.email;
       }
 
-      const filter = {userMail:userRecord.email};
+      const filter = {userMail:userRecord.email.toLowerCase()};
       const update = {  userMail:email };
 
       // `doc` is the document _before_ `update` was applied
@@ -224,39 +189,53 @@ exports.update_a_user = function(req, res) {
 
 */
 
-exports.delete_user = function(req,res){
+exports.delete_user = async function(req,res){
 
   var email;
+  var exit = false;
 
   admin.auth().getUser(req.params.id)
     .then(function(userRecord) {
-      email = userRecord.email;
+      email = userRecord.email.toLowerCase();
 
-  }).catch(function(error) {
-        if(error.code =="auth/user-not-found" ){
-          res.status(404).json( "user no existe" );
+    }).catch(async function(error) {
+          if(error.code =="auth/user-not-found" ){
+            console.log(1)
+            if(!exit){
+              console.log(req.params.id)
+              res.status(404).json( "user no existe" );
+              exit = true;
+            }
+            return
+          }
+          console.log("error primer");
+          console.log(error);
+          res.status(500).send(error);
+          exit = true;
           return
-        }
-        console.log("error primer");
-        console.log(error);
-        res.status(500).send(error);
-        return
-    });
-
+      });
+var filter
 admin.auth().deleteUser(req.params.id)
       .then(async function(deleteUsersResult) {
 
 
-        const filter = {userMail: email};
+        filter = {userMail: email.toLowerCase()};
         await User.deleteMany(filter);    
         await Rec.deleteMany(filter);    
         console.log("sendeo");
         res.status(200).send("ok");
       })
-      .catch(function(error) {
+      .catch(async function(error) {
         if(error.code =="auth/user-not-found" ){
-          res.status(404).json( "user no existe" );
-          return
+          console.log(2)
+            if(!exit){
+              console.log(filter)
+              var debug = await User.find({})
+              console.log( debug )
+              res.status(404).json( "user no existe" );
+              exit = true
+            }
+            return
         }
 
         console.log("error seg");
@@ -267,5 +246,32 @@ admin.auth().deleteUser(req.params.id)
       });
 
 
+
+}
+
+
+function listListUsers(req,res,list,nextPageToken) {
+
+  var arrayUsers=[];
+  var i =0;
+  // List batch of users, 1000 at a time.
+  admin.auth().listUsers(1000, nextPageToken)
+    .then(function(listUsersResult) {
+      listUsersResult.users.forEach(function(userRecord) {
+        //console.log(userRecord);
+        //if(userRecord.password.includes ("mailPass"))
+        if(list.includes(userRecord.uid))
+         arrayUsers.push(userRecord);
+      });
+      if (listUsersResult.pageToken) {
+        // List next batch of users.
+        listAllUsers(req,res,list,listUsersResult.pageToken);
+      }else
+        res.status(200).json(arrayUsers);
+    })
+    .catch(function(error) {
+      console.log('Error listing users:', error);
+      res.status(500).send(error);
+    });
 
 }

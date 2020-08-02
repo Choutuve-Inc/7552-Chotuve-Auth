@@ -35,7 +35,6 @@ exports.exportDataJoin = function exportDataJoin(req,res,nextPageToken) {
       	result = arrayUsers.reduce((a, c) => (a[c] = (a[c] || 0) + 1, a), Object.create(null));
 		Object.keys(result).forEach(function(key){
 			dicList.push({"fecha":key,"cant":result[key]});
-			console.log(key);
 		});
 		
 		dicList.sort(function compare(a, b) {
@@ -53,7 +52,6 @@ exports.exportDataJoin = function exportDataJoin(req,res,nextPageToken) {
       	}
     })
     .catch(function(error) {
-      console.log('Error listing users:', error);
       res.status(500).send(error);
     });
 }
@@ -78,7 +76,6 @@ exports.exportDataLastSeen = function exportDataLastSeen(req,res,nextPageToken) 
       	result = arrayUsers.reduce((a, c) => (a[c] = (a[c] || 0) + 1, a), Object.create(null));
 		Object.keys(result).forEach(function(key){
 			dicList.push({"fecha":key,"cant":result[key]});
-			console.log(key);
 		});
 		
 		dicList.sort(function compare(a, b) {
@@ -96,7 +93,6 @@ exports.exportDataLastSeen = function exportDataLastSeen(req,res,nextPageToken) 
       	}
     })
     .catch(function(error) {
-      console.log('Error listing users:', error);
       res.status(500).send(error);
     });
 }
