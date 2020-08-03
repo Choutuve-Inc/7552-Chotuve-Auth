@@ -28,7 +28,7 @@ exports.update_a_user = function(req, res) {
     	
 		uid = userRecord.uid;
 
-		const filter = {userMail:req.body.email};
+		const filter = {userMail:req.body.email.toLowerCase()};
 		var email;
 
 		var password;

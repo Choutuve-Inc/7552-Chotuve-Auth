@@ -27,8 +27,8 @@ module.exports = function(app) {
 		.post(validate.validateToken);
 		
 	app.route('/users')
-		.get(user.list_all_users)
-		.delete(deletee.deletee);
+		.get(user.list_all_users);
+		//.delete(deletee.deletee);
 
 	app.route('/users/:id')
 		//.post(todoList.generarTokenDeMod)
