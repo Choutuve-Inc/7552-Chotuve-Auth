@@ -75,8 +75,6 @@ exports.update_a_user = function(req, res) {
 	            return res.status(500).json( error.code );
 	        });
 	      
-	           
-	      
       })  
       .catch(function(error) {           
             if(error.code =="auth/invalid-email" ){

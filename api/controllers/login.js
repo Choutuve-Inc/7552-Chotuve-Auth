@@ -13,6 +13,40 @@ var provider = dependencias.provider;
 
   var keyJWT = dependencias.keyJWT;
 
+var login = exports.login = function(req,res) {
+
+
+  User.findOne({device: req.body.device},
+  function(err,user){
+      if (err){
+        res.send(err.name);
+        return;
+      }
+      if(!user){     
+        if(req.body.tipo === "mailPass"){
+      logMailPass(req,res);
+
+
+      }else if(req.body.tipo === "admin"){
+      logAdmin(req,res)    
+
+      }else
+        res.status(404).send("wrong kind of login");
+      }
+      else{
+        admin.auth().getUserByEmail(user.userMail)
+          .then(function(userRecord) {
+            
+            res.json({token:user.userToken,uid:userRecord.uid});
+        }).catch(function(error){
+          console.log(error)
+          res.json(error);
+        })
+      }
+  });
+}
+
+
 function logAdmin(req,res){
 	if (!req.body.email) return res.status(400).json({error: 'missing email'});
     if (!req.body.password) return res.status(400).json({error: 'missing password'});
@@ -109,36 +143,3 @@ function logMailPass(req,res){
 
 }
 
-
-var login = exports.login = function(req,res) {
-
-
-	User.findOne({device: req.body.device},
-	function(err,user){
-      if (err){
-        res.send(err.name);
-        return;
-      }
-      if(!user){		 
-      	if(req.body.tipo === "mailPass"){
-			logMailPass(req,res);
-
-
-		  }else if(req.body.tipo === "admin"){
-			logAdmin(req,res)    
-
-		  }else
-		    res.status(404).send("wrong kind of login");
-      }
-      else{
-      	admin.auth().getUserByEmail(user.userMail)
-        	.then(function(userRecord) {
-         		
-        		res.json({token:user.userToken,uid:userRecord.uid});
-    		}).catch(function(error){
-    			console.log(error)
-    			res.json(error);
-    		})
-    	}
-	});
-}

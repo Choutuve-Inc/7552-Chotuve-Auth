@@ -122,7 +122,7 @@ describe('loading express', function () {
   .send({"email":"dumimail@dumi.com","password":"dumi","tipo":"mailPass","device":"asd"})
   .then(function(res) {
   	request(app)  
-    .get('/user/'+res.body.uid)
+    .get('/users/'+res.body.uid)
     .expect(200, done);
   	})
   });  
@@ -309,29 +309,7 @@ describe('loading express', function () {
   	})
   });
 
- it('responds 200 to good /create(admin)', function testSlash(done) {
-  request(app)
-    .post('/create')
-    .send({"email":"dumiMail@Dumi.com","password":"dumi","tipo":"admin"})
-    .expect(200, done);
-  });
 
-  it('responds 200 to delete /users/uid', function testSlash(done) {
-  request(app)     
-  .get('/users')
-  .then(function(res) {
-  	res.body.forEach(function(user){
-  		if(user.email === "dumiMail@Dumi.com"){
-	  		request(app)  
-			    .delete('/users/'+user.uid)
-			    .expect(200, done);
-			    return
-  		}
-  	})
-
-  	})
-  done();
-  });
 
   it('404 wrong url', function testPath(done) {
     request(app)
