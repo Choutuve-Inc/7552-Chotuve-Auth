@@ -10,3 +10,4 @@ before_install:
   -d
 - openssl aes-256-cbc -K $encrypted_2c8317c5f69c_key -iv $encrypted_2c8317c5f69c_iv
   -in firebaseLogin.js.enc -out firebaseLogin.js -d
+services: mongodb
