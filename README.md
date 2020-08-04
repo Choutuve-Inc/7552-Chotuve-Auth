@@ -1,5 +1,4 @@
-
-https://travis-ci.com/Choutuve-Inc/7552-Chotuve-Auth.svg?branch=master
+[![Build Status](https://travis-ci.com/Choutuve-Inc/7552-Chotuve-Auth.svg?branch=master)](https://travis-ci.com/Choutuve-Inc/7552-Chotuve-Auth)
 # Chotuve
 Trabajo practico Taller 2
 
