@@ -23,6 +23,14 @@ Test con istambul
 ```
 npm test
 ```
+## Deploy a Heroku
+con el docker la imagen docker ya construida ejecutar en el directorio
+```
+heroku container:login
+heroku create
+heroku container:push web
+heroku container:release web
+```
 
 ## Api y arquitectura:
 https://docs.google.com/document/d/1d6lu6t_hO2r7-are_qe6hpThudjRH5Rm48Ulp91yVhM/edit?usp=sharing
